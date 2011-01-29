@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>jsonlib</title>
+<style>
+  body { font-family: Arial; }
+</style>
+</head>
+<body>
+<h2>call.jsonlib.com</h2>
+
+<p>A small library of json calls.
+
+<p>Access using
+<a href="/jsonlib.js">jsonlib.js</a> (source and docs at
+<a href="/jsonlib-src.js">jsonlib-src.js</a>, and
+<a href="/examples.html">examples here</a>), or using
+any ajax library that can make jsonp calls.
+
+<p>All calls below accept an optional "callback"
+cgi parameter for jsonp support.
+
+<p><b>/ip</b> - Returns the caller's ip address.
+
+<p>Example: <a href="http://call.jsonlib.com/ip"
+>http://call.jsonlib.com/ip</a>.
+
+<p><b>/time</b> - Returns the server's time in seconds since epoch.
+
+<p>Example: <a href="http://call.jsonlib.com/time?callback=cb8"
+>http://call.jsonlib.com/time?callback=cb8</a>.
+
+<p><b>/echo</b> - Echoes the cgi parameters as json.
+
+<p>Example: <a href="http://call.jsonlib.com/echo?a=first&b=second&callback=cb"
+>http://call.jsonlib.com/echo?a=first&b=second&callback=cb</a>.
+
+<p><b>/urandom</b> - Provides secure random bytes from the server.
+
+<p>Example: <a href=
+"http://call.jsonlib.com/urandom?bytes=10&format=array&callback=seedrandom"
+>http://call.jsonlib.com/urandom?bytes=10&format=array&callback=seedrandom</a>.
+
+<p><b>/fetch</b> - Does a raw HTTP fetch.
+
+<p>Example: <a href="http://call.jsonlib.com/fetch?url=http://google.com/"
+>http://call.jsonlib.com/fetch?url=http://google.com/</a>.
+
+<p>CGI parameters:
+<ul>
+<li><b>url</b> (required) - the URL to fetch.</li>
+<li><b>data</b> (optional) - if supplied, the data will be POSTed</li>
+<li><b>header</b> (multiple allowed) - an http header in the form Http-Request-Header:Value</li>
+<li><b>select</b> (optional) - CSS selector syntax to select elements for the result</li>
+<li><b>extract</b> (optional; use with select) - 'attr_attrname' or 'text' to extract only an attribute or text, or 'dict' to extract each tag as a dictionary</li>
+<li><b>encoding</b> (optional) - preferred encoding with which to decode the response</li>
+</ul>
+
+<p>Author: <a href="http://davidbau.com/">David Bau</a>
+</body>
+</html>

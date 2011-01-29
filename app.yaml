@@ -1,0 +1,44 @@
+application: jsonlib
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /
+  static_files: index.html
+  upload: index.html
+
+- url: /favicon.ico
+  static_files: favicon.ico
+  upload: favicon.ico
+
+- url: /examples.html
+  static_files: examples.html
+  upload: examples.html
+
+- url: /jsonlib.js
+  static_files: js/jsonlib-1.0.js
+  upload: js/jsonlib-1.0.js
+
+- url: /jsonlib-src.js
+  static_files: js/jsonlib-1.0-src.js
+  upload: js/jsonlib-1.0-src.js
+
+- url: /(jsonlib.*\.js)
+  static_files: js/\1
+  upload: js/.*
+
+- url: /fetch
+  script: fetch.py
+
+- url: /time
+  script: servertime.py
+
+- url: /urandom
+  script: urandom.py
+
+- url: /ip
+  script: clientip.py
+
+- url: /echo
+  script: echo.py

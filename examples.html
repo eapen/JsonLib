@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>jsonlib examples</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script src="http://call.jsonlib.com/jsonlib.js"></script>
+<style>
+  body { font-family: Arial; }
+  .tryme { text-decoration:underline; color: blue; cursor: pointer; }
+</style>
+</head>
+<body>
+<h2>call.jsonlib.com javascript Examples</h2>
+  
+See <a href="http://call.jsonlib.com">call.jsonlib.com</a> for documentation.
+
+<pre class=tryme>jsonlib.time(function(m) { output(m); });</pre>
+<pre class=tryme>jsonlib.ip(function(m) { output(m); });</pre>
+<pre class=tryme>jsonlib.fetch('http://davidbau.com/data/animals', function(m) { output(m); });</pre>
+<pre class=tryme>jsonlib.scrape('div[class=story] a', 'http://www.nytimes.com/', function(m) { output(m); });</pre>
+<pre class=tryme>jsonlib.scrapeattr('href', 'a', 'http://davidbau.com/', function(m) { output(m); });</pre>
+<pre class=tryme>jsonlib.urandom(function(m) { output(m); });</pre>
+
+<pre id='info'>Click to eval.  Results shown below.</pre>
+<pre id='out'></pre>
+<script>
+function cquote(str) {
+  return '"' + str.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').
+    replace(/\r/g, '\\r').replace(/\t/g, '\\t').replace(/"/g, '\\"') + '"';
+}
+  
+function indent(depth) {
+  var result = '';
+  for (var j = 0; j < depth; j++) {
+    result += '  ';
+  }
+  return result;
+}   
+
+function pretty(obj, depth, nest) {
+  if (obj == null) return 'null';
+  if (obj.constructor == String) {
+    if (obj.length > 9) nest.big = true;
+    return cquote(obj);
+  }
+  if (obj.constructor == Number) return '' + obj;
+  if (obj.constructor == Array) {
+    var result = ['['];
+    var inner = {};
+    for (var j = 0; j < obj.length; j++) {
+      nest.big = true;
+      result.push(pretty(obj[j], depth + 1, inner) + ',');
+    }
+    var joiner = (inner.big) ? '\n' + indent(depth + 1) : ' ';
+    var finish = ((inner.big) ? '\n' + indent(depth) : ' ') + ']';
+    return result.join(joiner) + finish;
+  }
+  if (obj.constructor == Object) {
+    var result = ['{'];
+    var inner = {};
+    for (var key in obj) {
+      nest.big = true;
+      result.push(cquote(key) + ': ' + pretty(obj[key], depth + 1, inner) + ',');
+    }
+    var joiner = (inner.big) ? '\n' + indent(depth + 1) : ' ';
+    var finish = ((inner.big) ? '\n' + indent(depth) : ' ') + '}';
+    return result.join(joiner) + finish;
+  }
+  return '<' + obj.constructor + '>';
+}
+  
+function output(obj) {
+  $(out).text(pretty(obj, 0, {}));
+}
+
+$('.tryme').click(
+  function(ev) {
+    $('#info').text('Evaluating: ' + $(this).text());
+    eval($(this).text());
+  }
+);
+</script>
