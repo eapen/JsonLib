@@ -1,0 +1,30 @@
+http://davidbau.com/archives/2011/01/29/simple_crossdomain_javascript_http_with_calljsonlibcom.html
+
+Simple Cross-Domain Javascript HTTP with call.jsonlib.com
+In Python, fetching any webpage in the world is a one-liner:
+
+print urllib2.urlopen('http://davidbau.com/data/animals').read()
+But Javascript's same origin policy prevents you from doing the same thing in Javascript unless your script happens to be running on a page from the same domain. The SOP is intended to protect the security of the user by limiting access to private resources such as:
+
+Private browser state like cookies from other domains.
+Private web pages that may be only accessible behind firewalls.
+While this is a nice thing for protecting logged-in banking sessions and secrets on corporate LANs, it also means that plenty of perfectly safe and useful network code cannot be written with Javascript. You need to do your cross-domain networking server-side, and then bounce your requests off a server in your own domain.
+
+JSONP Lets Servers Expose Services Cross-Domain
+
+Interestingly, the "src" attribute of the <script> tag is not subject to the same origin restriction, which means that servers can intentionally expose services cross-domain by encoding their data as a javascript function call.
+
+In 2005 Bob Ippolito proposed standardizing this convention as a format called JSONP. Today, JSONP can be used to make cross-domain calls to various useful APIs including Flickr, GData, Twitter, and YQL. JSONP is incredibly useful and is supported in all the major AJAX libraries such as JQuery.
+
+YQL in particular is very versatile, and it actually allows you to make your own further HTTP requests to other domains. However, it does a lot more and is a bit complicated and slow as a result. So for the specific purpose of making secure cross-domain HTTP calls on the public internet, I have been using a service I've posted on Google App Engine, called call.jsonlib.com.
+
+Cross-Domain Javascript HTTP Requests on the Public Web
+
+The library at call.jsonlib.com lets you get very close to the python one-liner:
+
+jsonlib.fetch('http://davidbau.com/data/animals', function(m) { alert(m.content); });
+It is just a simple packaging of the python urllib2 library as a JSONP library. But it is tremendously useful. It allows you to:
+
+Make GET or POST requests to arbitrary public servers
+Set arbitrary HTTP headers
+Read all the HTTP headers of the response
